@@ -93,6 +93,7 @@ def main():
     samplename = sampleConfig.get('sample', 'name')
     state = getStates(sampleConfig.get('sample', 'state'))
     outdir = sampleConfig.get('workdir', 'outdir')
+    os.makedirs(outdir,exist_ok=True)
 
     ## get cmds
     cmds = []
