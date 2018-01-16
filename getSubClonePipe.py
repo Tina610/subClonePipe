@@ -10,7 +10,7 @@ import os, sys
 import configparser
 import argparse
 
-path = os.path.dirname(__file__)
+path = os.path.abspath(os.path.dirname(__file__))
 
 
 def getConfig(configfile):
