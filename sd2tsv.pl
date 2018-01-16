@@ -22,11 +22,12 @@ sub trans2tsv{
 		open OUT,">$of" || die $!;
 		print OUT "mutation_id\tref_counts\tvar_counts\tnormal_cn\tminor_cn\tmajor_cn\tvariant_case\tvariant_freq\tgenotype\n";
 	}
+	<IN>;
 	while(<IN>){
 		s/[\r\n]+//;
 		my @cells = split /\t/;
-		next if $cells[5] ne 'exonic' and $cells[5] ne 'splicing';
-		my $mid = getmid($cells[5],$cells[9],$cells[7]);
+		#next if $cells[5] ne 'exonic' and $cells[5] ne 'splicing';
+		my $mid = getmid($cells[5],$cells[9],$cells[7],"$cells[0]\_$cells[1]\_$cells[2]\_$cells[3]\_$cells[4]");
 		my ($rc,$vc,$vf);
 		my $nc = 2;
 		my $minor_cn = 0;
@@ -34,6 +35,7 @@ sub trans2tsv{
 		my $variant_case = $cells[-1];
 		my $genotype = 'unknown';
 		($rc,$vc,$vf) = getinfo($cells[-1]);
+		next if $rc == 1 and $vc ==1 and $vf==1;
 		print OUT "$mid\t$rc\t$vc\t$nc\t$minor_cn\t$major_cn\t$variant_case\t$vf\t$genotype\n";
 	}
 	close IN;
@@ -44,7 +46,9 @@ sub trans2tsv{
 
 sub getinfo{
 	my $info = shift;
-	my ($trc,$tvc,$tvf);
+	my $trc=1;
+	my $tvc=1;
+	my $tvf=1;
 	if($info =~/[\d]\/[\d]:(\d+),(\d+):/){
 		$trc = $1;
 		$tvc = $2;
@@ -58,6 +62,7 @@ sub getmid{
 	my $type = shift;
 	my $name1 = shift;
 	my $name2 = shift;
+	my $name3 = shift;
 	if($type eq 'exonic'){
 		return $name1;
 	}
@@ -65,6 +70,6 @@ sub getmid{
 		return $name2;
 	}
 	else{
-		return "unknownType";
+		return $name3;
 	}
 }
