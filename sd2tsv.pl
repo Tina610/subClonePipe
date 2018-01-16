@@ -45,7 +45,7 @@ sub trans2tsv{
 sub getinfo{
 	my $info = shift;
 	my ($trc,$tvc,$tvf);
-	if($info =~/0\/1:(\d+),(\d+):/){
+	if($info =~/[\d]\/[\d]:(\d+),(\d+):/){
 		$trc = $1;
 		$tvc = $2;
 		$tvf = $tvc/($trc+$tvc);
