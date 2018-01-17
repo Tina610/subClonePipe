@@ -25,7 +25,7 @@ while(<IN>){
 		$gene = $1;
 		$pdot = 'splicing';
 	}
-	$hash{$gene}{$pdot} = 1;
+	$hash{$gene}{$pdot} = 1 if $gene ne '';
 }
 close IN;
 
@@ -39,6 +39,7 @@ while(<IN>){
 	my @cells = split /\t/;
 	my $pass =1;
 	foreach my $gene(keys %hash){
+#	    print "gene:$gene\n";
 		if($cells[0] =~/$gene/){
 			foreach my $pd(keys %{$hash{$gene}}){
 				if($cells[0]=~/$pd/){
