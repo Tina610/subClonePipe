@@ -35,7 +35,7 @@ sub trans2tsv{
 		my $variant_case = $cells[-1];
 		my $genotype = 'unknown';
 		($rc,$vc,$vf) = getinfo($cells[-1]);
-		next if ($rc +$vc) < 50;
+		next if ($rc +$vc) < 200;
 		print OUT "$mid\t$rc\t$vc\t$nc\t$minor_cn\t$major_cn\t$variant_case\t$vf\t$genotype\n";
 	}
 	close IN;
