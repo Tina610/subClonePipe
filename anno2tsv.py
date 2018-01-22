@@ -89,6 +89,9 @@ def getmutations(files, tags):
                 lines.pop(0)  # 取出表头
                 for line in lines:
                     flag, info, ref, alt = getLineInfo(line)
+                    cells = line.strip('\n').split('\t')
+                    if cells[5] not in ['exonic','splicing']:
+                        continue
                     mutationFlag = '{}_{}'.format(tag, flag)
                     if int(ref)+int(alt) < 200:
                         mutations[mutationFlag] = '1000,0'
