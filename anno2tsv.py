@@ -91,7 +91,7 @@ def getmutations(files, tags):
                     flag, info, ref, alt = getLineInfo(line)
                     mutationFlag = '{}_{}'.format(tag, flag)
                     if int(ref)+int(alt) < 200:
-                        mutations[mutationFlag] = '1000,1'
+                        mutations[mutationFlag] = '1000,0'
                     else:
                         mutations[mutationFlag] = '{},{}'.format(ref, alt)
                     if flag not in location.keys():
@@ -99,11 +99,11 @@ def getmutations(files, tags):
                     for subut in usetag:
                         tflag = '{}_{}'.format(subut, flag)
                         if tflag not in mutations.keys():
-                            mutations[tflag] = '1000,1'
+                            mutations[tflag] = '1000,0'
                     for lo in location.keys():
                         tflag = '{}_{}'.format(tag, lo)
                         if tflag not in mutations.keys():
-                            mutations[tflag] = '1000,1'
+                            mutations[tflag] = '1000,0'
     return mutations, location
 
 
