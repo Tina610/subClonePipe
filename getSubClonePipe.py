@@ -74,6 +74,18 @@ def get_pyclone(pyclone, state, outdir):
           '--table_type old_style'.format(pyclone, infile, outdir, ' '.join(state))
     return cmd
 
+def get_pyclone_plot(pyclone, outdir):
+    pydict={}
+    pydict['plot_clusters'] = ['density','parallel_coordinates','scatter']
+    pydict['plot_loci'] = ['density','parallel_coordinates','scatter',
+                'similarity_matrix','vaf_parallel_coordinates','vaf_scatter']
+    cmd = 'echo "start plot"'
+    for i in pydict.keys():
+        for j in pydict[i]:
+            cmd = '{0} && {1} {2} --config_file {3}/config.yaml --plot_file {3}/{2}_{4}.pdf --plot_type {4}'\
+                .format(cmd,pyclone,i,outdir,j)
+
+    return cmd
 
 def main():
     args = getArgs()
@@ -116,6 +128,7 @@ def main():
     cmds.append(get_pyclone(pyclone, state, outdir))
     cmds.append(get_driver(perl, getDriver_s, '{}/table.old_style'.format(outdir),
                            driver, '{}/cloneEvaInput.txt'.format(outdir)))
+    cmds.append(get_pyclone_plot(pyclone,outdir))
     cmds.append(get_clonevol(rscript,clonevolR_s,'{}/cloneEvaInput.txt'.format(outdir),outdir))
 
     ## writer cmds
