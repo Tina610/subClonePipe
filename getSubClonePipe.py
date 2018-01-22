@@ -42,6 +42,9 @@ def get_sd2tsv(perl, sd2tsv, snp, indel, out):
     cmd = '{} {} {} {} {}'.format(perl, sd2tsv, snp, indel, out)
     return cmd
 
+def get_anno2tsv(python,anno2tsv,files,samples,ponfile,out):
+    cmd = '{0} {1} -infiles  {2} -s {3} --filter {4} -o {5}'.format(python,anno2tsv,files,samples,ponfile,out)
+    return cmd
 
 def get_driver(perl, scr, table, driver, out):
     cmd = '{} {} {} {} {}'.format(perl, scr, table, driver, out)
@@ -88,6 +91,10 @@ def main():
     sd2tsv_s = progrmConfig.get('scripts', 'sd2tsv')
     clonevolR_s = progrmConfig.get('scripts', 'clonevolR')
     getDriver_s = progrmConfig.get('scripts', 'getDriver')
+    anno2tsv_s = progrmConfig.get('scripts','anno2tsv')
+
+    ## get database
+    ponfile = progrmConfig.get('database','ponfile')
 
     ## get sample config
     samplename = sampleConfig.get('sample', 'name')
@@ -98,9 +105,14 @@ def main():
     ## get cmds
     cmds = []
     driver = ''
+    files = ''
+    samples = ''
     for i in state:
         snp, indel, driver = preOneLib(sampleConfig, i)
-        cmds.append(get_sd2tsv(perl, sd2tsv_s, snp, indel, '{}/{}.tsv'.format(outdir, i)))
+        files = '{} {},{}'.format(files,snp,indel)
+        samples = '{} {}'.format(samples,i)
+        # cmds.append(get_sd2tsv(perl, sd2tsv_s, snp, indel, '{}/{}.tsv'.format(outdir, i)))
+    cmds.append(get_anno2tsv(python,anno2tsv_s,files,samples,ponfile,outdir))
     cmds.append(get_pyclone(pyclone, state, outdir))
     cmds.append(get_driver(perl, getDriver_s, '{}/table.old_style'.format(outdir),
                            driver, '{}/cloneEvaInput.txt'.format(outdir)))
