@@ -149,10 +149,11 @@ def filterlocation(pondict,location):
     :param location:
     :return: filterlovation
     '''
+    tmps = location.copy()
     for l in location.keys():
         if l in pondict.keys():
-            del location['l']
-    return location
+            del tmps[l]
+    return tmps
 
 def writerfile(outdir,tag,location,mutation):
     '''
@@ -170,7 +171,7 @@ def writerfile(outdir,tag,location,mutation):
         for l in location:
             flag = '{}_{}'.format(tag,l)
             ref,alt = mutation[flag].split(',')
-            outstr = '{0}\t{1}\t{2}\t2\t0\t2\t{3}\t{4}\t{3}\n'.\
+            outstr = '{0}_{3}\t{1}\t{2}\t2\t0\t2\t{3}\t{4}\t{3}\n'.\
                 format(l,ref,alt,location[l],int(alt)/(int(alt)+int(ref)))
             f.write(outstr)
     print('{} finish Write!'.format(tag))
