@@ -21,9 +21,9 @@ while(<IN>){
 		$gene = $1;
 		$pdot = $2;
 	}
-	elsif(/\(<i>(\w+)<\/i>\).+?[+-]/){
+	elsif(/\(<i>(\w+)<\/i>\):(c\..+?[+-])$/){
 		$gene = $1;
-		$pdot = 'splicing';
+		$pdot = $2;
 	}
 	$hash{$gene}{$pdot} = 1 if $gene ne '';
 }
