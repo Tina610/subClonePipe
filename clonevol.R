@@ -40,15 +40,15 @@ y = infer.clonal.models(variants = data,
                         subclonal.test = 'bootstrap',
                         subclonal.test.model = 'non-parametric',
                         num.boots = 1000,
-                        founding.cluster = 1,
+                        founding.cluster = NULL,
                         cluster.center = 'mean',
                         ignore.clusters = NULL,
                         #clone.colors = clone.colors,
                         min.cluster.vaf = 0.01,
                         # min probability that CCF(clone) is non-negative
-                        sum.p = 0.05,
+                        sum.p = 0.5,
                         # alpha level in configendence interval estimate for CCF(clone)
-                        alpha = 0.05)
+                        alpha = 0.01)
 
 cloeva = y
 
