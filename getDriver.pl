@@ -46,10 +46,10 @@ while(<IN>){
 					print OUT "TRUE\t$gene\_$pd\t$_\n";
 					$pass=0;
 				}
-				elsif($pd eq 'splicing' and $cells[0]=~/[+-]/){
-					print OUT "TRUE\t$gene\_$pd\t$_\n";
-					$pass =0;
-				}
+#				elsif($pd eq 'splicing' and $cells[0]=~/[+-]/){
+#					print OUT "TRUE\t$gene\_$pd\t$_\n";
+#					$pass =0;
+#				}
 			}
 		}
 	}
