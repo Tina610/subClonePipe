@@ -19,6 +19,8 @@ def getArgs():
     parser.add_argument('--samples', '-s', dest='samples',
                         nargs='+', required=True, action='store',
                         help='输入文件标记，空格分割')
+    parser.add_argument('--outdir','-o',dest='outdir',required=True,
+                        help='输出目录',action='store')
     parser.add_argument('--driver', '-driver', dest='driver',
                         action='store', default='',
                         help='driver gene file')
@@ -162,7 +164,17 @@ def writerfile(outdir,tag,location,mutation):
     :return: nothing
     '''
     with open('{}/{}.tsv'.format(outdir,tag),'w') as f:
-        title = 'mutation_id\tref_counts\tvar_counts\tnormal_cn\tminor_cn\tmajor_cn\tvariant_case\tvariant_freq\tgenotype'
+        title = 'mutation_id\tref_counts\tvar_counts\tnormal_cn\tminor_cn' \
+                '\tmajor_cn\tvariant_case\tvariant_freq\tgenotype\n'
+        f.write(title)
+        for l in location:
+            flag = '{}_{}'.format(tag,l)
+            ref,alt = mutation[flag].split(',')
+            outstr = '{0}\t{1}\t{2}\t2\t0\t2\t{3}\t{4}\t{3}\n'.\
+                format(l,ref,alt,location[l],int(alt)/(int(alt)+int(ref)))
+            f.write(outstr)
+    print('{} finish Write!'.format(tag))
+
         
 
 
@@ -188,12 +200,23 @@ def mytest():
         for ta in tags:
             # print(ta)
             t = '{}\t{}'.format(t, test['{}_{}'.format(ta, l)])
-        print(t)
+        # print(t)
+    for tag in tags:
+        writerfile('/home/chenyl/TMPS',tag,location,test)
+
+def run():
+    args = getArgs()
+    mutations,locations = getmutations(args.infiles, args.samples)
+    pondict = getPon(args.filter)
+    locations = filterlocation(pondict,locations)
+    for tag in args.samples:
+        writerfile(args.outdir,tag,locations,mutations)
+    print('All finish')
 
 
 def main():
     # getArgs()
-    mytest()
+    run()
 
 
 if __name__ == '__main__':
