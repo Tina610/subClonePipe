@@ -42,17 +42,21 @@ def get_sd2tsv(perl, sd2tsv, snp, indel, out):
     cmd = '{} {} {} {} {}'.format(perl, sd2tsv, snp, indel, out)
     return cmd
 
-def get_anno2tsv(python,anno2tsv,files,samples,ponfile,out):
-    cmd = '{0} {1} -infiles  {2} -s {3} --filter {4} -o {5}'.format(python,anno2tsv,files,samples,ponfile,out)
+
+def get_anno2tsv(python, anno2tsv, files, samples, ponfile, out):
+    cmd = '{0} {1} -infiles  {2} -s {3} --filter {4} -o {5}'.format(python, anno2tsv, files, samples, ponfile, out)
     return cmd
+
 
 def get_driver(perl, scr, table, driver, out):
     cmd = '{} {} {} {} {}'.format(perl, scr, table, driver, out)
     return cmd
 
 
-def get_clonevol(rscript, clovR, cloneInput, outdir):
-    cmd = '{} {} {} {}'.format(rscript, clovR, cloneInput, outdir)
+def get_clonevol(rscript, clovR, cloneInput, outdir, sump, alpha):
+    outdir = '{}/clonevol_{}_{}'.format(outdir, sump, alpha)
+    os.makedirs(outdir, exist_ok=True)
+    cmd = '{} {} {} {} {} {}'.format(rscript, clovR, cloneInput, outdir, sump, alpha)
     return cmd
 
 
@@ -74,18 +78,20 @@ def get_pyclone(pyclone, state, outdir):
           '--table_type old_style'.format(pyclone, infile, outdir, ' '.join(state))
     return cmd
 
+
 def get_pyclone_plot(pyclone, outdir):
-    pydict={}
-    pydict['plot_clusters'] = ['density','parallel_coordinates','scatter']
-    pydict['plot_loci'] = ['density','parallel_coordinates','scatter',
-                'similarity_matrix','vaf_parallel_coordinates','vaf_scatter']
+    pydict = {}
+    pydict['plot_clusters'] = ['density', 'parallel_coordinates', 'scatter']
+    pydict['plot_loci'] = ['density', 'parallel_coordinates', 'scatter',
+                           'similarity_matrix', 'vaf_parallel_coordinates', 'vaf_scatter']
     cmd = 'echo "start plot"'
     for i in pydict.keys():
         for j in pydict[i]:
-            cmd = '{0} && {1} {2} --config_file {3}/config.yaml --plot_file {3}/{2}_{4}.pdf --plot_type {4}'\
-                .format(cmd,pyclone,i,outdir,j)
+            cmd = '{0} && {1} {2} --config_file {3}/config.yaml --plot_file {3}/{2}_{4}.pdf --plot_type {4}' \
+                .format(cmd, pyclone, i, outdir, j)
 
     return cmd
+
 
 def main():
     args = getArgs()
@@ -103,16 +109,16 @@ def main():
     sd2tsv_s = progrmConfig.get('scripts', 'sd2tsv')
     clonevolR_s = progrmConfig.get('scripts', 'clonevolR')
     getDriver_s = progrmConfig.get('scripts', 'getDriver')
-    anno2tsv_s = progrmConfig.get('scripts','anno2tsv')
+    anno2tsv_s = progrmConfig.get('scripts', 'anno2tsv')
 
     ## get database
-    ponfile = progrmConfig.get('database','ponfile')
+    ponfile = progrmConfig.get('database', 'ponfile')
 
     ## get sample config
     samplename = sampleConfig.get('sample', 'name')
     state = getStates(sampleConfig.get('sample', 'state'))
     outdir = sampleConfig.get('workdir', 'outdir')
-    os.makedirs(outdir,exist_ok=True)
+    os.makedirs(outdir, exist_ok=True)
 
     ## get cmds
     cmds = []
@@ -121,15 +127,20 @@ def main():
     samples = ''
     for i in state:
         snp, indel, driver = preOneLib(sampleConfig, i)
-        files = '{} {},{}'.format(files,snp,indel)
-        samples = '{} {}'.format(samples,i)
+        files = '{} {},{}'.format(files, snp, indel)
+        samples = '{} {}'.format(samples, i)
         # cmds.append(get_sd2tsv(perl, sd2tsv_s, snp, indel, '{}/{}.tsv'.format(outdir, i)))
-    cmds.append(get_anno2tsv(python,anno2tsv_s,files,samples,ponfile,outdir))
+    cmds.append(get_anno2tsv(python, anno2tsv_s, files, samples, ponfile, outdir))
     cmds.append(get_pyclone(pyclone, state, outdir))
     cmds.append(get_driver(perl, getDriver_s, '{}/table.old_style'.format(outdir),
                            driver, '{}/cloneEvaInput.txt'.format(outdir)))
-    cmds.append(get_pyclone_plot(pyclone,outdir))
-    cmds.append(get_clonevol(rscript,clonevolR_s,'{}/cloneEvaInput.txt'.format(outdir),outdir))
+    cmds.append(get_pyclone_plot(pyclone, outdir))
+    for i in range(1, 100, 5):
+        for j in range(1,100,5):
+            sump=i/100
+            alpha =j/100
+            cmds.append(get_clonevol(rscript, clonevolR_s, '{}/cloneEvaInput.txt'.format(outdir),
+                                     outdir,sump,alpha))
 
     ## writer cmds
     for i in cmds:
