@@ -115,6 +115,7 @@ plot.clonal.models(y,
                    # output figure parameters
                    out.dir = arg[2],
                    out.format = 'pdf',
+                   out.prefix = paste('model',arg[3],arg[4],sep='_')
                    overwrite.output = TRUE,
                    width = 8,
                    height = 4,
@@ -128,7 +129,7 @@ print('fishplot')
 f = generateFishplotInputs(results=cloeva)
 fishes = createFishPlotObjects(f)
 #plot with fishplot
-pdf(paste(arg[2],'/fish.pdf',sep=''), width=8, height=5)
+pdf(paste(arg[2],'/',arg[3],'_',arg[4],'_fish.pdf',sep=''), width=8, height=5)
 for (i in 1:length(fishes)){
   fish = layoutClones(fishes[[i]])
   fish = setCol(fish,f$clonevol.clone.colors)
