@@ -90,8 +90,6 @@ def getmutations(files, tags):
                 for line in lines:
                     flag, info, ref, alt = getLineInfo(line)
                     cells = line.strip('\n').split('\t')
-                    if cells[5] not in ['exonic','splicing']:
-                        continue
                     mutationFlag = '{}_{}'.format(tag, flag)
                     # if int(ref)+int(alt) < 200:
                     #     mutations[mutationFlag] = '1000,0'
@@ -100,6 +98,8 @@ def getmutations(files, tags):
                     mutations[mutationFlag] = '{},{}'.format(ref, alt)
                     if flag not in location.keys():
                         location[flag] = info
+                    if cells[5] not in ['exonic','splicing']:
+                        continue
                     for subut in usetag:
                         tflag = '{}_{}'.format(subut, flag)
                         if tflag not in mutations.keys():
@@ -177,6 +177,8 @@ def writerfile(outdir,tag,location,mutation):
         f.write(title)
         for l in location:
             flag = '{}_{}'.format(tag,l)
+            if flag not in mutation.keys():
+                continue
             ref,alt = mutation[flag].split(',')
             outstr = '{0}_{3}\t{1}\t{2}\t2\t0\t2\t{3}\t{4}\t{3}\n'.\
                 format(l,ref,alt,location[l],int(alt)/(int(alt)+int(ref)))
