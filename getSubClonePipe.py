@@ -71,7 +71,7 @@ def get_pyclone(pyclone, state, outdir):
           '--samples {3} ' \
           '--prior total_copy_number &&' \
           '{0} run_analysis ' \
-          '--config_file {2}/config.yaml && ' \
+          '--config_file {2}/config.yaml --seed 1&& ' \
           '{0} build_table ' \
           '--config_file {2}/config.yaml ' \
           '--out_file {2}/table.old_style ' \
