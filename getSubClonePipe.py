@@ -54,8 +54,8 @@ def get_driver(perl, scr, table, driver, out):
 
 
 def get_clonevol(rscript, clovR, cloneInput, outdir, sump, alpha):
-    outdir = '{}/clonevol_{}_{}'.format(outdir, sump, alpha)
-    os.makedirs(outdir, exist_ok=True)
+    # outdir = '{}/clonevol_{}_{}'.format(outdir, sump, alpha)
+    # os.makedirs(outdir, exist_ok=True)
     cmd = '{} {} {} {} {} {}'.format(rscript, clovR, cloneInput, outdir, sump, alpha)
     return cmd
 
