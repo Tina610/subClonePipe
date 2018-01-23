@@ -93,10 +93,11 @@ def getmutations(files, tags):
                     if cells[5] not in ['exonic','splicing']:
                         continue
                     mutationFlag = '{}_{}'.format(tag, flag)
-                    if int(ref)+int(alt) < 200:
-                        mutations[mutationFlag] = '1000,0'
-                    else:
-                        mutations[mutationFlag] = '{},{}'.format(ref, alt)
+                    # if int(ref)+int(alt) < 200:
+                    #     mutations[mutationFlag] = '1000,0'
+                    # else:
+                    #     mutations[mutationFlag] = '{},{}'.format(ref, alt)
+                    mutations[mutationFlag] = '{},{}'.format(ref, alt)
                     if flag not in location.keys():
                         location[flag] = info
                     for subut in usetag:
