@@ -91,8 +91,8 @@ def getmutations(files, tags):
                     flag, info, ref, alt = getLineInfo(line)
                     cells = line.strip('\n').split('\t')
                     mutationFlag = '{}_{}'.format(tag, flag)
-                    if cells[5] not in ['exonic', 'splicing']:
-                        continue
+                    # if cells[5] not in ['exonic', 'splicing']:
+                    #     continue
                     # if cells[5] not in ['exonic','splicing'] and \
                     #         ('rs' in cells[13] or 'rs' in cells[14]):
                     #     continue
