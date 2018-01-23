@@ -46,9 +46,9 @@ y = infer.clonal.models(variants = data,
                         #clone.colors = clone.colors,
                         min.cluster.vaf = 0,
                         # min probability that CCF(clone) is non-negative
-                        sum.p = args[3],
+                        sum.p = arg[3],
                         # alpha level in configendence interval estimate for CCF(clone)
-                        alpha = args[4])
+                        alpha = arg[4])
 print(y)
 
 cloeva = y
