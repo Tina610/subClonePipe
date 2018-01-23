@@ -100,9 +100,9 @@ def getmutations(files, tags):
                     #     mutations[mutationFlag] = '1000,0'
                     # else:
                     #     mutations[mutationFlag] = '{},{}'.format(ref, alt)
-                    # mutations[mutationFlag] = '{},{}'.format(ref, alt)
-                    # if flag not in location.keys():
-                    #     location[flag] = info
+                    mutations[mutationFlag] = '{},{}'.format(ref, alt)
+                    if flag not in location.keys():
+                        location[flag] = info
                     #
                     # for subut in usetag:
                     #     tflag = '{}_{}'.format(subut, flag)
