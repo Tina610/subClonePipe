@@ -75,7 +75,7 @@ def get_pyclone(pyclone, state, outdir):
           '{0} build_table ' \
           '--config_file {2}/config.yaml ' \
           '--out_file {2}/table.old_style ' \
-          '--table_type old_style'.format(pyclone, infile, outdir, ' '.join(state))
+          '--table_type old_style  --max_clusters 6'.format(pyclone, infile, outdir, ' '.join(state))
     return cmd
 
 
