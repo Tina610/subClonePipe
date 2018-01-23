@@ -1,7 +1,7 @@
 arg<-commandArgs(T)
 
-if(length(arg) != 2){
-  print('Rscript this.R cloneEvaInput.txt Outdir')
+if(length(arg) != 4){
+  print('Rscript this.R cloneEvaInput.txt Outdir sump alpha')
   q()
 }
 
@@ -44,11 +44,12 @@ y = infer.clonal.models(variants = data,
                         cluster.center = 'mean',
                         ignore.clusters = NULL,
                         #clone.colors = clone.colors,
-                        min.cluster.vaf = 0.01,
+                        min.cluster.vaf = 0,
                         # min probability that CCF(clone) is non-negative
-                        sum.p = 0.5,
+                        sum.p = args[3],
                         # alpha level in configendence interval estimate for CCF(clone)
-                        alpha = 0.01)
+                        alpha = args[4])
+print(y)
 
 cloeva = y
 
