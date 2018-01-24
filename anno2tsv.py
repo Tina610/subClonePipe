@@ -96,7 +96,8 @@ def getmutations(files, tags):
                     # if cells[5] not in ['exonic','splicing'] and \
                     #         ('rs' in cells[13] or 'rs' in cells[14]):
                     #     continue
-                    # if int(ref)+int(alt) < 200:
+                    if int(ref)+int(alt) < 500:
+                        continue
                     #     mutations[mutationFlag] = '1000,0'
                     # else:
                     #     mutations[mutationFlag] = '{},{}'.format(ref, alt)
