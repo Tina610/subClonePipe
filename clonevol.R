@@ -4,7 +4,8 @@ if(length(arg) != 4){
   print('Rscript this.R cloneEvaInput.txt Outdir sump alpha')
   q()
 }
-
+print('parameters:')
+print(c(arg[3],arg[4]))
 library(clonevol)
 library(fishplot)
 createFishPlotObjects <- function(results){
@@ -41,15 +42,17 @@ y = infer.clonal.models(variants = data,
                         subclonal.test.model = 'non-parametric',
                         num.boots = 1000,
                         founding.cluster = NULL,
-                        cluster.center = 'mean',
+                        cluster.center = 'median',
                         ignore.clusters = NULL,
                         #clone.colors = clone.colors,
                         min.cluster.vaf = 0,
+			random.seed=1,
                         # min probability that CCF(clone) is non-negative
-                        sum.p = arg[3],
+                        sum.p = as.numeric(arg[3]),
                         # alpha level in configendence interval estimate for CCF(clone)
-                        alpha = arg[4])
-print(y)
+                        alpha = as.numeric(arg[4])
+			)
+#print(y)
 
 cloeva = y
 
@@ -115,7 +118,7 @@ plot.clonal.models(y,
                    # output figure parameters
                    out.dir = arg[2],
                    out.format = 'pdf',
-                   out.prefix = paste('model',arg[3],arg[4],sep='_')
+                   out.prefix = paste('model',arg[3],arg[4],sep='_'),
                    overwrite.output = TRUE,
                    width = 8,
                    height = 4,
