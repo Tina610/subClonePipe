@@ -32,10 +32,9 @@ def getStates(state):
 
 
 def preOneLib(config, substate):
-    snp = config.get(substate, 'snp')
-    indel = config.get(substate, 'indel')
+    snp = config.get(substate, 'anno')
     driver = config.get(substate, 'driver')
-    return snp, indel, driver
+    return snp, driver
 
 
 def get_sd2tsv(perl, sd2tsv, snp, indel, out):
@@ -99,8 +98,8 @@ def main():
     cmds = []
     driver = ''
     for i in state:
-        snp, indel, driver = preOneLib(sampleConfig, i)
-        cmds.append(get_sd2tsv(perl, sd2tsv_s, snp, indel, '{}/{}.tsv'.format(outdir, i)))
+        snp, driver = preOneLib(sampleConfig, i)
+        cmds.append(get_sd2tsv(perl, sd2tsv_s, snp, '{}/{}.tsv'.format(outdir, i)))
     cmds.append(get_pyclone(pyclone, state, outdir))
     cmds.append(get_driver(perl, getDriver_s, '{}/table.old_style'.format(outdir),
                            driver, '{}/cloneEvaInput.txt'.format(outdir)))
