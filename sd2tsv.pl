@@ -1,14 +1,12 @@
 use strict;
 print "$0";
-die "usage: perl program.pl <infile.SNP> <infile.INDEL> <output.tsv>" unless @ARGV==3;
+die "usage: perl program.pl <infile.anno>  <output.tsv>" unless @ARGV==2;
 
 my $file1 = shift;
-my $file2 = shift;
 my $out = shift;
 
 
 trans2tsv($file1,$out);
-trans2tsv($file2,$out);
 
 
 sub trans2tsv{
