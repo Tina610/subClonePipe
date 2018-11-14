@@ -8,7 +8,7 @@ my $driver = shift;
 my $out = shift;
 
 
-#NM\_002524(<i>NRAS</i>):c.35G\>A(p.G12D)      Exon 2  45.70%  血液肿瘤综合性  xyb1NRA001
+#NM\_002520(NPM1):c.859\_860insTCTG(p.L287fs)	Exon 11	25.39\%	allgene	xyb1NPM001
 
 
 my %hash;
@@ -17,11 +17,11 @@ while(<IN>){
 	s/[\r\n]+//;
 	my $gene;
 	my $pdot;
-	if(/\(<i>(\w+)<\/i>\).+?\((p.+)\)/){
+	if(/\((\w+)\).+?\((p.+)\)/){
 		$gene = $1;
 		$pdot = $2;
 	}
-	elsif(/\(<i>(\w+)<\/i>\).+?[+-]/){
+	elsif(/\((\w+)\).+?[+-]/){
 		$gene = $1;
 		$pdot = 'splicing';
 	}
