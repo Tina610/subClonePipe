@@ -38,7 +38,7 @@ def preOneLib(config, substate):
 
 
 def get_sd2tsv(perl, sd2tsv, snp, out):
-    cmd = '{} {} {} {} {}'.format(perl, sd2tsv, snp, out)
+    cmd = '{} {} {} {}'.format(perl, sd2tsv, snp, out)
     return cmd
 
 
