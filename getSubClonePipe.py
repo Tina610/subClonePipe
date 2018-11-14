@@ -37,8 +37,8 @@ def preOneLib(config, substate):
     return snp, driver
 
 
-def get_sd2tsv(perl, sd2tsv, snp, indel, out):
-    cmd = '{} {} {} {} {}'.format(perl, sd2tsv, snp, indel, out)
+def get_sd2tsv(perl, sd2tsv, snp, out):
+    cmd = '{} {} {} {} {}'.format(perl, sd2tsv, snp, out)
     return cmd
 
 
